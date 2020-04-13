@@ -17,8 +17,10 @@ export default createMuiTheme({
     }
   },
   typography: {
-    h3: {
-      fontWeight: 300
+    tab: {
+      fontFamily: "Raleway",
+      textTransform: "none",     // 字體預設為大寫，none 取消此功能
+      fontWeight: 700,
     }
   }
 });
