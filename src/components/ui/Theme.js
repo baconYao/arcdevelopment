@@ -21,6 +21,12 @@ export default createMuiTheme({
       fontFamily: "Raleway",
       textTransform: "none",     // 字體預設為大寫，none 取消此功能
       fontWeight: 700,
+    },
+    estimate: {
+      fontFamily: "Pacifico",
+      fontSize: "1rem",
+      textTransform: "none",
+      color: "white"
     }
   }
 });
