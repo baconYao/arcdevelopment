@@ -55,6 +55,18 @@ const useStyles = makeStyles(theme => ({
     marginLeft: "50px",
     marginRight: "25px",
     height: "45px",
+  },
+  menu: {
+    backgroundColor: theme.palette.common.blue,
+    color: "white",
+    borderRadius: "0px"
+  },
+  menuItem: {
+    ...theme.typography.tab,
+    opacity: 0.7,
+    "&:hover": {
+      opacity: 1
+    }
   }
 }));
 
@@ -136,12 +148,15 @@ function Header(props) {
               id="simple-menu"
               anchorEl={anchorEl}
               open={open}
+              classes={{paper: classes.menu}}
               onClose={handleClose}
               MenuListProps={{onMouseLeave: handleClose}}
+              elevation={0}
             >
-              <MenuItem onClick={handleClick}>Custom Software Development</MenuItem>
-              <MenuItem onClick={handleClick}>Mobile App Development</MenuItem>
-              <MenuItem onClick={handleClick}>Website Development</MenuItem>
+              <MenuItem onClick={() => {handleClose(); setValue(1)}} classes={{root: classes.menuItem}} component={Link} to="/services">Services</MenuItem>
+              <MenuItem onClick={() => {handleClose(); setValue(1)}} classes={{root: classes.menuItem}} component={Link} to="/customsoftware">Custom Software Development</MenuItem>
+              <MenuItem onClick={() => {handleClose(); setValue(1)}} classes={{root: classes.menuItem}} component={Link} to="/mobileapps">Mobile App Development</MenuItem>
+              <MenuItem onClick={() => {handleClose(); setValue(1)}} classes={{root: classes.menuItem}} component={Link} to="/websites">Website Development</MenuItem>
             </Menu>
           </ToolBar>
         </AppBar>
