@@ -75,6 +75,7 @@ function Header(props) {
   const [value, setValue] = useState(0);
   const [anchorEl, setAnchorEl] = useState(null);
   const [open, setOpen] = useState(false);
+  const [selectedIndex, setSelectedIndex] = useState(0);
 
   const handleChange = (e, value) => {
     setValue(value);
@@ -89,6 +90,19 @@ function Header(props) {
     setAnchorEl(null);
     setOpen(false);
   }
+
+  const handleMenuItemClick = (e, i) => {
+    setAnchorEl(null);
+    setOpen(false);
+    setSelectedIndex(i);
+  }
+
+  const menuOptions = [
+    {name: "Services", link: "/services"},
+    {name: "Custom Software Development", link: "/customsoftware"},
+    {name: "Mobile App Development", link: "/mobileapps"},
+    {name: "Website Development", link: "/websites"},
+  ]
 
   useEffect(() => {
     if(window.location.pathname === "/" && value !== 0) {
@@ -153,10 +167,18 @@ function Header(props) {
               MenuListProps={{onMouseLeave: handleClose}}
               elevation={0}
             >
-              <MenuItem onClick={() => {handleClose(); setValue(1)}} classes={{root: classes.menuItem}} component={Link} to="/services">Services</MenuItem>
-              <MenuItem onClick={() => {handleClose(); setValue(1)}} classes={{root: classes.menuItem}} component={Link} to="/customsoftware">Custom Software Development</MenuItem>
-              <MenuItem onClick={() => {handleClose(); setValue(1)}} classes={{root: classes.menuItem}} component={Link} to="/mobileapps">Mobile App Development</MenuItem>
-              <MenuItem onClick={() => {handleClose(); setValue(1)}} classes={{root: classes.menuItem}} component={Link} to="/websites">Website Development</MenuItem>
+              {menuOptions.map((option, i) => (
+                <MenuItem
+                  key={option}
+                  onClick={(event) => {handleMenuItemClick(event, i); setValue(1); handleClose()}}
+                  classes={{root: classes.menuItem}}
+                  component={Link}
+                  to={option.link}
+                  selected={i === selectedIndex && value === 1
+                }>
+                  {option.name}
+                </MenuItem>  
+              ))}
             </Menu>
           </ToolBar>
         </AppBar>
