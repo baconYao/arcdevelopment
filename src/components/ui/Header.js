@@ -105,21 +105,61 @@ function Header(props) {
   ]
 
   useEffect(() => {
-    if(window.location.pathname === "/" && value !== 0) {
-      setValue(0);
+    switch (window.location.pathname) {
+      case "/":
+        if(value !== 0) {
+          setValue(0);
+        }
+        break;
+      case "/services":
+        if(value !== 1) {
+          setValue(1);
+          setSelectedIndex(0);
+        }
+        break;
+      case "/customsoftware":
+        if(value !== 1) {
+          setValue(1);
+          setSelectedIndex(1);
+        }
+        break;
+      case "/mobileapps":
+        if(value !== 1) {
+          setValue(1);
+          setSelectedIndex(2);
+        }
+        break;
+      case "/websites":
+        if(value !== 1) {
+          setValue(1);
+          setSelectedIndex(3);
+        }
+        break;
+      case "/revolution":
+        console.log("in revolution")
+        if(value !== 2) {
+          setValue(2);
+        }
+        break;
+      case "/about":
+        if(value !== 3) {
+          setValue(3);
+        }
+        break;
+      case "/contact":
+        if(value !== 4) {
+          setValue(4);
+        }
+        break;
+      case "/estimate":
+        if(value !== 5) {
+          setValue(5);
+        }
+        break;
+      default:
+        break;
     }
-    else if(window.location.pathname === "/services" && value !== 1) {
-      setValue(1);
-    }
-    else if(window.location.pathname === "/revolution" && value !== 2) {
-      setValue(2);
-    }
-    else if(window.location.pathname === "/about" && value !== 3) {
-      setValue(3);
-    }
-    else if(window.location.pathname === "/contact" && value !== 4) {
-      setValue(4);
-    }
+
   }, [value]);
 
   return (
@@ -155,7 +195,7 @@ function Header(props) {
               />
               <Tab className={classes.tab} component={Link} to={"/revolution"} label="The Revolution"/>
               <Tab className={classes.tab} component={Link} to={"/about"} label="About Us"/>
-              <Tab className={classes.tab} component={Link} to={"contact"} label="Contact Us"/>
+              <Tab className={classes.tab} component={Link} to={"/contact"} label="Contact Us"/>
             </Tabs>
             <Button variant="contained" color="secondary" className={classes.button}>Free Estimate</Button>
             <Menu
