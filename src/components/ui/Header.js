@@ -157,7 +157,13 @@ function Header(props) {
 
   const routes = [
     { name: "Home", link: "/", activeIndex: 0 },
-    { name: "Services", link: "/services", activeIndex: 1 },
+    { name: "Services",
+      link: "/services",
+      activeIndex: 1,
+      ariaOwns: anchorEl ? "simple-menu" : undefined,
+      ariaPopup: anchorEl ? "true" : undefined,
+      mouseOver: event => handleClick(event)
+    },
     { name: "The Revolution", link: "/revolution", activeIndex: 2 },
     { name: "About Us", link: "/about", activeIndex: 3 },
     { name: "Contact Us", link: "/contact", activeIndex: 4 },
@@ -168,7 +174,7 @@ function Header(props) {
       switch (window.location.pathname) {
         case `${route.link}`:
           if(value !== route.activeIndex) {
-            setValue(route.activateIndex);
+            setValue(route.activeIndex);
             if(route.selectedIndex && route.selectedIndex !== selectedIndex) {
               setSelectedIndex(route.selectedIndex);
             }
@@ -190,20 +196,18 @@ function Header(props) {
         className={classes.tabContainer}
         indicatorColor="primary"
       >
-        <Tab className={classes.tab} component={Link} to={"/"} label="Home"/>
-        <Tab 
-          className={classes.tab}
-          component={Link}
-          to={"/services"}
-          label="Services"
-          // aria-owns={anchorEl ? "simple-menu" : undefined}
-          aria-controls="simple-menu"
-          aria-haspopup={anchorEl ? "true" : undefined}
-          onMouseOver={ event => handleClick(event)}
-        />
-        <Tab className={classes.tab} component={Link} to={"/revolution"} label="The Revolution"/>
-        <Tab className={classes.tab} component={Link} to={"/about"} label="About Us"/>
-        <Tab className={classes.tab} component={Link} to={"/contact"} label="Contact Us"/>
+        {routes.map((route, index) => (
+          <Tab
+            key={`${route}${index}`}
+            className={classes.tab}
+            component={Link}
+            to={route.link}
+            label={route.name}
+            aria-owns={route.ariaOwns}
+            aria-haspopup={route.ariaPopup}
+            onMouseOver={route.mouseOver}
+          />
+        ))}
       </Tabs>
       <Button variant="contained" color="secondary" className={classes.button}>Free Estimate</Button>
       <Menu
@@ -214,6 +218,7 @@ function Header(props) {
         onClose={handleClose}
         MenuListProps={{onMouseLeave: handleClose}}
         elevation={0}
+        keepMounted
       >
         {menuOptions.map((option, i) => (
           <MenuItem
@@ -242,80 +247,24 @@ function Header(props) {
         classes={{paper: classes.drawer}}
       >
         <List disablePadding>
-          <ListItem 
-            onClick={() => {setOpenDrawer(false); setValue(0)}}
-            selected={value === 0}
-            divider
-            button
-            component={Link} to="/"
-          >
-            <ListItemText
-              className={value === 0 ? [classes.drawerItem, classes.drawerItemSelected] : classes.drawerItem}
-              disableTypography
+          {routes.map((route) => (
+            <ListItem
+              divider
+              key={`${route}${route.activeIndex}`}
+              button
+              component={Link}
+              to={route.link}
+              selected={value === route.activeIndex}
+              onClick={() => {setOpenDrawer(false); setValue(route.activeIndex)}}
             >
-              Home
-            </ListItemText>
-          </ListItem>
-          <ListItem
-            onClick={() => {setOpenDrawer(false); setValue(1)}}
-            selected={value === 1}
-            divider
-            button
-            component={Link}
-            to="/services"
-          >
-            <ListItemText
-              className={value === 1 ? [classes.drawerItem, classes.drawerItemSelected] : classes.drawerItem}
-              disableTypography
-            >
-              Services
-            </ListItemText>
-          </ListItem>
-          <ListItem
-            onClick={() => {setOpenDrawer(false); setValue(2)}}
-            selected={value === 2}
-            divider
-            button
-            component={Link}
-            to="/revolution"
-          >
-            <ListItemText
-              className={value === 2 ? [classes.drawerItem, classes.drawerItemSelected] : classes.drawerItem}
-              disableTypography
-            >
-              The Revolution
-            </ListItemText>
-          </ListItem>
-          <ListItem
-            onClick={() => {setOpenDrawer(false); setValue(3)}}
-            selected={value === 3}
-            divider
-            button
-            component={Link}
-            to="/about"
-          >
-            <ListItemText
-              className={value === 3 ? [classes.drawerItem, classes.drawerItemSelected] : classes.drawerItem}
-              disableTypography
-            >
-              About Us
-            </ListItemText>
-          </ListItem>
-          <ListItem
-            onClick={() => {setOpenDrawer(false); setValue(4)}}
-            selected={value === 4}
-            divider
-            button
-            component={Link}
-            to="/contact"
-          >
-            <ListItemText
-              className={value === 4 ? [classes.drawerItem, classes.drawerItemSelected] : classes.drawerItem}
-              disableTypography
-            >
-              Contact Us
-            </ListItemText>
-          </ListItem>
+              <ListItemText
+                disableTypography
+                className={ value === route.activeIndex ? [classes.drawerItem, classes.drawerItemSelected] : classes.drawerItem}
+              >
+                {route.name}
+              </ListItemText>
+            </ListItem>
+          ))}
           <ListItem
             onClick={() => {setOpenDrawer(false); setValue(5)}}
             className={classes.drawerItemEstimate}
