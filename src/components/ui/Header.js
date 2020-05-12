@@ -129,13 +129,11 @@ function Header(props) {
   // https://material-ui.com/customization/breakpoints/#theme-breakpoints-down-key-media-query
   const matches = useMediaQuery(theme.breakpoints.down('md'));
   const [openDrawer, setOpenDrawer] = useState(false);
-  const [value, setValue] = useState(0);
   const [anchorEl, setAnchorEl] = useState(null);
   const [openMenu, setOpenMenu] = useState(false);
-  const [selectedIndex, setSelectedIndex] = useState(0);
 
   const handleChange = (e, newValue) => {
-    setValue(newValue);
+    props.setValue(newValue);
   }
 
   const handleClick = (e) => {
@@ -151,7 +149,7 @@ function Header(props) {
   const handleMenuItemClick = (e, i) => {
     setAnchorEl(null);
     setOpenMenu(false);
-    setSelectedIndex(i);
+    props.setSelectedIndex(i);
   }
 
   const menuOptions = [
@@ -179,10 +177,10 @@ function Header(props) {
     [...menuOptions, ...routes].forEach(route => {
       switch (window.location.pathname) {
         case `${route.link}`:
-          if(value !== route.activeIndex) {
-            setValue(route.activeIndex);
-            if(route.selectedIndex && route.selectedIndex !== selectedIndex) {
-              setSelectedIndex(route.selectedIndex);
+          if(props.value !== route.activeIndex) {
+            props.setValue(route.activeIndex);
+            if(route.selectedIndex && route.selectedIndex !== props.selectedIndex) {
+              props.setSelectedIndex(route.selectedIndex);
             }
           }
           break;
@@ -191,13 +189,13 @@ function Header(props) {
       }
     });
 
-  }, [value, menuOptions, selectedIndex, routes]);
+  }, [props.value, menuOptions, props.selectedIndex, routes, props]);
 
   // 當 windows size 大於 'md' 時，會顯示 Tabs 內容
   const tabs = (
     <React.Fragment>
       <Tabs
-        value={value}
+        value={props.value}
         onChange={handleChange}
         className={classes.tabContainer}
         indicatorColor="primary"
@@ -230,11 +228,11 @@ function Header(props) {
         {menuOptions.map((option, i) => (
           <MenuItem
             key={`${option}-${i}`}
-            onClick={(event) => {handleMenuItemClick(event, i); setValue(1); handleClose()}}
+            onClick={(event) => {handleMenuItemClick(event, i); props.setValue(1); handleClose()}}
             classes={{root: classes.menuItem}}
             component={Link}
             to={option.link}
-            selected={i === selectedIndex && value === 1
+            selected={i === props.selectedIndex && props.value === 1
           }>
             {option.name}
           </MenuItem>  
@@ -262,8 +260,8 @@ function Header(props) {
               button
               component={Link}
               to={route.link}
-              selected={value === route.activeIndex}
-              onClick={() => {setOpenDrawer(false); setValue(route.activeIndex)}}
+              selected={props.value === route.activeIndex}
+              onClick={() => {setOpenDrawer(false); props.setValue(route.activeIndex)}}
               classes={{selected: classes.drawerItemSelected}}
             >
               <ListItemText
@@ -275,9 +273,9 @@ function Header(props) {
             </ListItem>
           ))}
           <ListItem
-            onClick={() => {setOpenDrawer(false); setValue(5)}}
+            onClick={() => {setOpenDrawer(false); props.setValue(5)}}
             classes={{root: classes.drawerItemEstimate, selected: classes.drawerItemSelected}}
-            selected={value === 5}
+            selected={props.value === 5}
             divider
             button
             component={Link}
@@ -312,7 +310,7 @@ function Header(props) {
               to="/"
               disableRipple
               className={classes.logoContainer}
-              onClick={() => setValue(0)}
+              onClick={() => props.setValue(0)}
             >
               <img alt="company logo" className={classes.logo} src={logo} />
             </Button>
