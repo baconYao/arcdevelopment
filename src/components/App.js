@@ -5,6 +5,7 @@ import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import theme from '../components/ui/Theme';
 import Header from '../components/ui/Header';
 import Footer from '../components/ui/Footer';
+import LandingPage from '../components/LandingPage';
 
 function App() {
   const [value, setValue] = useState(0);    // 控制 header menu 被選擇到的時候的值 (ex: 在 "/" 時，Home顏色會變粗 )
@@ -20,7 +21,7 @@ function App() {
           setSelectedIndex={setSelectedIndex}
         />
         <Switch>
-          <Route exact path="/" component={() => <div style={{height: "2000px"}}>Home</div>} />
+          <Route exact path="/" component={LandingPage} />
           <Route exact path="/services" component={() => <div>services</div>} />
           <Route exact path="/customsoftware" component={() => <div>customsoftware</div>} />
           <Route exact path="/mobileapps" component={() => <div>mobileapps</div>} />
