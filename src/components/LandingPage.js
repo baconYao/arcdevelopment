@@ -262,9 +262,12 @@ export default function LandingPage() {
             container
             style={{ position: "absolute", textAlign: matchesXS ? "center": "inherit" }}
             direction={matchesXS ? "column": "row"}
-            spacing={matchesXS ? 10: 0}
           >
-            <Grid item sm style={{ marginLeft: matchesXS ? 0 : matchesSM ? "2em" :  "5em" }}>
+            <Grid
+              item
+              sm
+              style={{ marginLeft: matchesXS ? 0 : matchesSM ? "2em" : "5em", marginBottom: matchesXS ? "5rem" : 0 }}
+            >
               <Grid container direction="column">
                 <Typography variant="h2" style={{ color: "white" }}>About us</Typography>
                 <Typography variant="subtitle2">Let's get personal.</Typography>
